@@ -11,8 +11,8 @@ CRequest * newCRequest(const char *url){
             self->binary_location= ".CRequest/curl.exe";
     #endif
 
-    self->delete_cache = true;
-    self->clear_cache = true;
+    self->delete_cache = false;
+    self->clear_expired_cache = true;
     self->cache_location = ".CRequest/cache/";
     self->private_url = strdup(url);
     self->private_paramns = newCRequestDict();
@@ -136,9 +136,11 @@ cJSON *CRequest_get_json_response(CRequest *self){
 
 bool CRequest_valid_cache_file(CRequest *self,const char *file){
     if(self->delete_cache){
+
         return false;
     }
     if(dtw_entity_type(file) == DTW_NOT_FOUND){
+
         return false;
     }
 

@@ -11,7 +11,7 @@ typedef struct CRequest{
     const char * driver_location;
     int cache_time;
     bool delete_cache;
-    bool clear_cache;
+    bool clear_expired_cache;
     const char * cache_location;
     const char *method;
     bool error_code;
