@@ -5,8 +5,9 @@
 
 int main(){
 
-    CRequestDict *t = newCRequestDict();
-    CRequestDict_set_element(t,"a","b");
-    CRequestDict_set_element(t,"a1","c");
+    CRequest *t = newCRequest("google.com.br");
+
+    CRequest_set_headder(t,"aa","bbbb");
+    CRequest_represent(t);
 
 }

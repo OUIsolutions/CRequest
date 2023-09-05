@@ -1,6 +1,6 @@
 
 
-CRequest newCRequest(const char *url){
+CRequest * newCRequest(const char *url){
     CRequest *self = (CRequest*) malloc(sizeof (CRequest));
     *self =(CRequest){0};
     self->cache_time = 60;
@@ -16,6 +16,7 @@ CRequest newCRequest(const char *url){
     self->url = strdup(url);
     self->paramns = newCRequestDict();
     self->headers = newCRequestDict();
+    return self;
 
 }
 
@@ -59,12 +60,22 @@ void CRequest_set_body_json(CRequest *self,cJSON *body){
 void CRequest_represent(CRequest *self){
 
     printf("url:%s\n",self->url);
-    printf("Paramns:-------------------------------------------\n");
-    CRequestDict_represent(self->paramns);
-    printf("Headders:-------------------------------------------\n");
-    CRequestDict_represent(self->paramns);
-    printf("Body:------------------------------------------------\n");
-    printf("size: %ld\n",self->body_size);
-    printf("content:\n%s",(char*)self->body);
+    if(self->paramns->size){
+        printf("Paramns:-------------------------------------------\n");
+        CRequestDict_represent(self->paramns);
+    }
+
+    if(self->headers->size){
+        printf("Headders:-------------------------------------------\n");
+        CRequestDict_represent(self->headers);
+    }
+
+    if(self->body){
+        printf("Body:------------------------------------------------\n");
+        printf("size: %ld\n",self->body_size);
+        printf("content:\n%s",(char*)self->body);
+    }
+
+
 
 }

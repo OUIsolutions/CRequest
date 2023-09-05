@@ -25,7 +25,7 @@ typedef struct CRequest{
 
 }CRequest;
 
-CRequest newCRequest(const char *url);
+CRequest * newCRequest(const char *url);
 
 
 void CRequest_set_param(CRequest *self,const char *key, const char *value);
