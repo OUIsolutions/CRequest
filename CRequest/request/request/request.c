@@ -105,6 +105,8 @@ char * CRequest_get_cache_response_location(CRequest *self){
     free(sha);
     return CTextStack_self_transform_in_string_and_self_clear(location);
 }
+
+
 char * CRequest_get_cache_body_location(CRequest *self){
     CTextStack * location = newCTextStack_string_empty();
     char *sha = dtw_generate_sha_from_any(self->private_body,self->private_body_size);
@@ -112,6 +114,24 @@ char * CRequest_get_cache_body_location(CRequest *self){
     free(sha);
     return CTextStack_self_transform_in_string_and_self_clear(location);
 
+}
+
+char * CRequest_get_string_response(CRequest *self){
+    bool is_binary;
+    long size;
+    unsigned char* content = CRequest_get_any_response(self, &size, &is_binary);
+    if(is_binary){
+        free(content);
+        return NULL;
+    }
+    return (char*)content;
+}
+
+cJSON *CRequest_get_json_response(CRequest *self){
+    char *content = CRequest_get_string_response(self);
+    cJSON *parsed  = cJSON_Parse(content);
+    free(content);
+    return parsed;
 }
 
 bool CRequest_valid_cache_file(CRequest *self,const char *file){

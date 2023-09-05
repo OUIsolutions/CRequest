@@ -11474,11 +11474,11 @@ char * CRequest_get_cache_body_location(CRequest *self);
 bool CRequest_valid_cache_file(CRequest *self,const char *file);
 
 
-unsigned char * CRequest_get_any(CRequest *self,long *size,bool *is_binary);
+unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_binary);
 
-char * CRequest_get_string(CRequest *self);
+char * CRequest_get_string_response(CRequest *self);
 
-cJSON *CRequest_get_json(CRequest *self);
+cJSON *CRequest_get_json_response(CRequest *self);
 
 void CRequest_free(CRequest *self);
 
@@ -11742,7 +11742,7 @@ void CRequest_represent(CRequest *self){
 //
 // Created by mateusmoutinho on 05/09/23.
 //
-unsigned char * CRequest_get_any(CRequest *self,long *size,bool *is_binary){
+unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_binary){
     dtw_create_dir_recursively(self->cache_location);
     CTextStack *comand = newCTextStack_string_empty();
 

@@ -51,7 +51,7 @@ void private_CRequest_format_headers(CRequest *self,CTextStack *comand){
 
 }
 
-unsigned char * CRequest_get_any(CRequest *self,long *size,bool *is_binary){
+unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_binary){
     char *response_cache_location = CRequest_get_cache_response_location(self);
 
     if(CRequest_valid_cache_file(self, response_cache_location)){
@@ -60,7 +60,10 @@ unsigned char * CRequest_get_any(CRequest *self,long *size,bool *is_binary){
         return content;
     }
 
-    dtw_create_dir_recursively(response_cache_location);
+    char *response_dir= dtw_concat_path(self->cache_location,"response");
+    dtw_create_dir_recursively(response_dir);
+    free(response_dir);
+
 
     CTextStack *comand = newCTextStack_string_empty();
 

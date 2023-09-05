@@ -15,6 +15,9 @@ typedef struct CRequestNamespace{
 
     void (*set_body_string)(CRequest *self,const char *body);
 
+    unsigned char * (*get_any_response)(CRequest *self, long *size, bool *is_binary);
+    char * (*get_string_response)(CRequest *self);
+    cJSON *(*get_json_response)(CRequest *self);
 
     void (*set_body_json)(CRequest *self,cJSON *body);
 

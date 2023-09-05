@@ -9,6 +9,11 @@ CRequestNamespace newCRequestNamespace(){
     self.set_body_string = CRequest_set_body_string;
     self.set_b64_body =CRequest_set_b64_body;
     self.set_body_json = CRequest_set_body_json;
+
+    self.get_any_response = CRequest_get_any_response;
+    self.get_string_response = CRequest_get_string_response;
+    self.get_json_response = CRequest_get_json_response;
+
     self.represent = CRequest_represent;
     self.free = CRequest_free;
     return self;

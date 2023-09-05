@@ -57,9 +57,9 @@ bool CRequest_valid_cache_file(CRequest *self,const char *file);
 
 
 
-char * CRequest_get_string(CRequest *self);
+char * CRequest_get_string_response(CRequest *self);
 
-cJSON *CRequest_get_json(CRequest *self);
+cJSON *CRequest_get_json_response(CRequest *self);
 
 void CRequest_free(CRequest *self);
 
