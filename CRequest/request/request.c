@@ -37,7 +37,11 @@ void CRequest_resset_body(CRequest *self){
 void CRequest_set_body(CRequest *self,unsigned char *body,long size){
     CRequest_resset_body(self);
     self->body_size = size;
+    self->body = malloc(size +1);
     self->body = memcpy(self->body,body,size);
+}
+void CRequest_set_body_string(CRequest *self,const char *body){
+    CRequest_set_body(self,(unsigned char*)body, (long)strlen(body));
 }
 
 void CRequest_set_b64_body(CRequest *self,unsigned char *body,long size){
@@ -46,10 +50,6 @@ void CRequest_set_b64_body(CRequest *self,unsigned char *body,long size){
     self->body_size = (long)strlen((char*)self->body);
 }
 
-void CRequest_set_body_string(CRequest *self,const char *body){
-    CRequest_resset_body(self);
-    CRequest_set_body(self,(unsigned char*)body, (long)strlen(body));
-}
 
 void CRequest_set_body_json(CRequest *self,cJSON *body){
     CRequest_resset_body(self);

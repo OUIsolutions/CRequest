@@ -5,12 +5,14 @@
 
 int main(){
     CRequestNamespace req = newCRequestNamespace();
-    CRequest *t = req.newRequest("google.com.br");
+    CRequest *r = req.newRequest("google.com.br");
 
-    req.add_headder(t, "aa", "bbbb");
-    req.add_query_parram(t, "aaaaaa", "bbbbb");
-    //CRequest_set_body_string(t,"aaaaaaaaaaaaaaa");
-    req.represent(t);
+    req.add_headder(r, "aa", "bbbb");
+    req.add_query_parram(r, "aaaaaa", "bbbbb");
+    req.set_body_string(r,"aaaaaaaaaaaaaaa");
+    req.represent(r);
+    req.free(r);
+
 
 
 }
