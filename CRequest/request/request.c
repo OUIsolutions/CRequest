@@ -12,6 +12,7 @@ CRequest * newCRequest(const char *url){
     #endif
 
     self->use_cache = true;
+    self->clear_cache = true;
     self->cache_location = ".CRequest/cache/";
     self->url = strdup(url);
     self->paramns = newCRequestDict();

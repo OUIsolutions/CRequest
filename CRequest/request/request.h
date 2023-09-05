@@ -10,6 +10,7 @@ typedef struct CRequest{
     const char * binary_location;
     int cache_time;
     bool use_cache;
+    bool clear_cache;
     const char * cache_location;
     const char *method;
     char *url;
