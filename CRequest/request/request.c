@@ -56,3 +56,12 @@ void CRequest_set_body_json(CRequest *self,cJSON *body){
     self->body_size = (long)strlen((char*)self->body);
 
 }
+void CRequest_represent(CRequest *self){
+    printf("Paramns:-------------------------------------------\n");
+    CRequestDict_represent(self->paramns);
+    printf("Headders:-------------------------------------------\n");
+    CRequestDict_represent(self->paramns);
+    printf("Body:------------------------------------------------\n");
+    printf("size: %ld\n",self->body_size);
+    printf("content:\n%s",(char*)self->body);
+}
