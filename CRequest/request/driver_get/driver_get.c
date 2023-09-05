@@ -35,7 +35,7 @@ void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
     }
     else{
         #ifdef __linux__
-                CTextStack_format(comand,"./%s",self->binary_location);
+                CTextStack_format(comand,"./%s",self->driver_location);
         #elif _win32
                 CTextStack_format(comand,"%s",self->binary_location);
         #endif

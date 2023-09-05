@@ -6,7 +6,7 @@ CRequest * newCRequest(const char *url){
     self->cache_time = 60;
     self->method = "GET";
     #ifdef __linux__
-            self->binary_location= ".CRequest/curl";
+            self->driver_location= ".CRequest/curl";
     #elif _WIN32
             self->binary_location= ".CRequest/curl.exe";
     #endif

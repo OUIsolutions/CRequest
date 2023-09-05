@@ -8,7 +8,7 @@
 typedef struct CRequest{
 
     bool use_native_curl;
-    const char * binary_location;
+    const char * driver_location;
     int cache_time;
     bool delete_cache;
     bool clear_cache;

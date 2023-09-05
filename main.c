@@ -9,7 +9,7 @@ int main(){
 "https://www.nwf.org/-/media/NEW-WEBSITE/Shared-Folder/Wildlife/Mammals/mammal_mule-deer-California_Richard-Douse_600x300.ashx"
 
             );
-    r->binary_location = "drivers/curl";
+    r->driver_location = "drivers/curl";
     r->delete_cache = false;
     long size;
     bool isbinary;

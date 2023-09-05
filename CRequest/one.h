@@ -1,5 +1,7 @@
 
-
+#ifndef CREQUEST_USE_LIBCURL
+    #include "driver.h"
+#endif
 #include "dependencies/doTheWorld.h"
 #include "dependencies/CTextEngine.h"
 
