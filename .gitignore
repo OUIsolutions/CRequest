@@ -5,6 +5,8 @@
 *.o
 *.ko
 *.obj
+*.pyc
+*__pycache__
 *.elf
 .CRequest
 # Linker output
