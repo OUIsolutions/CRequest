@@ -4,13 +4,13 @@
 #include "CRequest/CRequest.h"
 
 int main(){
+    CRequestNamespace req = newCRequestNamespace();
+    CRequest *t = req.newRequest("google.com.br");
 
-    CRequest *t = newCRequest("google.com.br");
-
-    CRequest_add_headder(t, "aa", "bbbb");
-    CRequest_add_query_parram(t, "aaaaaa", "bbbbb");
+    req.add_headder(t, "aa", "bbbb");
+    req.add_query_parram(t, "aaaaaa", "bbbbb");
     //CRequest_set_body_string(t,"aaaaaaaaaaaaaaa");
-    CRequest_represent(t);
+    req.represent(t);
 
 
 }
