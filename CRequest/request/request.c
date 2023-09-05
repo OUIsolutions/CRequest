@@ -4,11 +4,11 @@ CRequest * newCRequest(const char *url){
     CRequest *self = (CRequest*) malloc(sizeof (CRequest));
     *self =(CRequest){0};
     self->cache_time = 60;
+
     #ifdef __linux__
-        self->binary_location= ".CRequest/curl";
-    #endif
-    #ifdef __win32__
-        self->binary_location= ".CRequest/curl.exe";
+            self->binary_location= ".CRequest/curl";
+    #elif _WIN32
+            self->binary_location= ".CRequest/curl.exe";
     #endif
 
     self->use_cache = true;
@@ -58,7 +58,9 @@ void CRequest_set_body_json(CRequest *self,cJSON *body){
     self->body_size = (long)strlen((char*)self->body);
 
 }
+unsigned char * CRequest_get_any(CRequest *self,long *size,bool *is_binary){
 
+}
 void CRequest_free(CRequest *self){
     CRequestDict_free(self->paramns);
     CRequestDict_free(self->headers);
