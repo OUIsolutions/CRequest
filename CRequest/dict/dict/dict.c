@@ -28,3 +28,12 @@ void CRequestDict_represent(CRequestDict *self){
     }
 }
 
+void CRequestDict_free(CRequestDict *self){
+    for (int i = 0; i < self->size; ++i) {
+        CRequestKeyVal_free(self->elements[i]);
+        printf("\n");
+    }
+    free(self->elements);
+    free(self);
+
+}

@@ -7,6 +7,12 @@ CRequestKeyVal *newCRequestKeyVal(const char *key, const char *value){
     return self;
 }
 
+void CRequestKeyVal_free(CRequestKeyVal *self){
+    free(self->key);
+    free(self->value);
+    free(self);
+}
+
 void CRequestKeyVal_represent(CRequestKeyVal *self){
     printf("\"%s\":\"%s\"",self->key,self->value);
 }
