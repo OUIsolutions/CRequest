@@ -24,6 +24,7 @@ void CRequestDict_set_element(CRequestDict *self,const char *key, const char *va
 void CRequestDict_represent(CRequestDict *self){
     for (int i = 0; i < self->size; ++i) {
         CRequestKeyVal_represent(self->elements[i]);
+        printf("\n");
     }
 }
 

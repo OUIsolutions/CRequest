@@ -18,7 +18,9 @@ typedef struct CRequest{
     bool error_code;
     char *error_menssage;
 
-    char *body;
+    long body_size;
+    unsigned char *body;
+
 
 }CRequest;
 

@@ -5,4 +5,8 @@
 
 int main(){
 
+    CRequestDict *t = newCRequestDict();
+    CRequestDict_set_element(t,"a","b");
+    CRequestDict_set_element(t,"a1","c");
+
 }
