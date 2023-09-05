@@ -5,16 +5,16 @@
 
 int main(){
     CRequestNamespace req = newCRequestNamespace();
-    CRequest *r = req.newRequest("google.com.br");
-    r->binary_location = "curl";
-    req.add_headder(r, "aa", "bbbb");
-    req.add_query_parram(r, "aaaaaa", "bbbbb");
-    req.set_body_string(r,"aaaaaaaaaaaaaaa");
+    CRequest *r = req.newRequest(
+"https://www.nwf.org/-/media/NEW-WEBSITE/Shared-Folder/Wildlife/Mammals/mammal_mule-deer-California_Richard-Douse_600x300.ashx"
+
+            );
+    r->binary_location = "drivers/curl";
     long size;
     bool isbinary;
     char *result = (char*)CRequest_get_any(r,&size,&isbinary);
-    printf("%s",result);
-    
+    //printf("%s",result);
+
     req.free(r);
 
 

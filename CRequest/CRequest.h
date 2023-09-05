@@ -10,6 +10,12 @@
 
 #include "dict/definition.h"
 #include "request/request.c"
+#ifdef CREQUEST_USE_LIBCURL
+    #include "request/lib_get.c"
+#else
+    #include "request/driver_get.c"
+#endif
+
 #include "namespace/namespace.c"
 
 

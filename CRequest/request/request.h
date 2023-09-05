@@ -13,18 +13,17 @@ typedef struct CRequest{
     bool clear_cache;
     const char * cache_location;
     const char *method;
-    char *url;
-    CRequestDict  *paramns;
-    CRequestDict  *headers;
-
     bool error_code;
     char *error_menssage;
 
-    long body_size;
-    unsigned char *body;
 
-    long respnse_size;
-    unsigned char *response;
+    char *private_url;
+    CRequestDict  *private_paramns;
+    CRequestDict  *private_headers;
+    long private_body_size;
+    const char *private_body_file;
+    unsigned char *private_body;
+
 
 
 }CRequest;
@@ -46,6 +45,9 @@ void CRequest_resset_body(CRequest *self);
 
 void CRequest_set_body_json(CRequest *self,cJSON *body);
 
+char * CRequest_assign_requisition(CRequest *self);
+
+char * CRequest_get_cache_location(CRequest *self);
 
 
 unsigned char * CRequest_get_any(CRequest *self,long *size,bool *is_binary);
