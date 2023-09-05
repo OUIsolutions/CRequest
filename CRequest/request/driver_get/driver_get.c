@@ -52,7 +52,16 @@ void private_CRequest_format_headers(CRequest *self,CTextStack *comand){
 }
 
 unsigned char * CRequest_get_any(CRequest *self,long *size,bool *is_binary){
-    dtw_create_dir_recursively(self->cache_location);
+    char *response_cache_location = CRequest_get_cache_response_location(self);
+
+    if(CRequest_valid_cache_file(self, response_cache_location)){
+        unsigned  char *content = dtw_load_any_content(response_cache_location, size, is_binary);
+        free(response_cache_location);
+        return content;
+    }
+
+    dtw_create_dir_recursively(response_cache_location);
+
     CTextStack *comand = newCTextStack_string_empty();
 
 
@@ -75,17 +84,25 @@ unsigned char * CRequest_get_any(CRequest *self,long *size,bool *is_binary){
     }
 
 
-    char *location = CRequest_get_cache_response_location(self);
-    CTextStack_format(comand," -L -o  %s",location);
+    CTextStack_format(comand, " -L -o  %s", response_cache_location);
     printf("comando :%s\n",comand->rendered_text);
 
     system(comand->rendered_text);
     CTextStack_free(comand);
 
-    unsigned  char *result = dtw_load_any_content(location,size,is_binary);
-    free(location);
+    unsigned  char *result = dtw_load_any_content(response_cache_location, size, is_binary);
+
+    if(self->delete_cache){
+        dtw_remove_any(response_cache_location);
+        if(body_path){
+            dtw_remove_any(body_path);
+        }
+    }
+
+    free(response_cache_location);
     if(body_path){
         free(body_path);
     }
+
     return result;
 }
