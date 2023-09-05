@@ -22,6 +22,9 @@ typedef struct CRequest{
     long body_size;
     unsigned char *body;
 
+    long respnse_size;
+    unsigned char *response;
+
 
 }CRequest;
 
@@ -49,6 +52,8 @@ unsigned char * CRequest_get_any(CRequest *self,long *size,bool *is_binary);
 char * CRequest_get_string(CRequest *self);
 
 cJSON *CRequest_get_json(CRequest *self);
+
+void CRequest_free(CRequest *self);
 
 void CRequest_represent(CRequest *self);
 

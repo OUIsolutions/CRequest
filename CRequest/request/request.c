@@ -57,6 +57,23 @@ void CRequest_set_body_json(CRequest *self,cJSON *body){
     self->body_size = (long)strlen((char*)self->body);
 
 }
+
+void CRequest_free(CRequest *self){
+    CRequestDict_free(self->paramns);
+    CRequestDict_free(self->headers);
+    free(self->url);
+    if(self->error_menssage){
+        free(self->error_menssage);
+    }
+    if(self->body){
+        free(self->body);
+    }
+    if(self->response){
+        free(self->response);
+    }
+    free(self);
+}
+
 void CRequest_represent(CRequest *self){
 
     printf("url:%s\n",self->url);
