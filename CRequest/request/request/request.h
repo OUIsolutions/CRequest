@@ -55,7 +55,7 @@ char * CRequest_get_cache_body_location(CRequest *self);
 bool CRequest_valid_cache_file(CRequest *self,const char *file);
 
 
-unsigned char * CRequest_get_any(CRequest *self,long *size,bool *is_binary);
+
 
 char * CRequest_get_string(CRequest *self);
 

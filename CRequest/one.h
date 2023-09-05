@@ -4,18 +4,12 @@
 #include "dependencies/CTextEngine.h"
 
 #include "dict/declaration.h"
-#include "request/request.h"
+#include "request/declaration.h"
 #include "namespace/namespace.h"
 
 
 #include "dict/definition.h"
-#include "request/request.c"
-#ifdef CREQUEST_USE_LIBCURL
-    #include "request/lib_get.c"
-#else
-    #include "request/driver_get.c"
-#endif
-
+#include "request/definition.h"
 #include "namespace/namespace.c"
 
 
