@@ -8,6 +8,7 @@
 typedef struct CRequest{
 
     const char * binary_location;
+    int cache_time;
     bool use_cache;
     const char * cache_location;
     const char *method;
@@ -31,9 +32,16 @@ void CRequest_set_param(CRequest *self,const char *key, const char *value);
 
 void CRequest_set_headder(CRequest *self,const char *key, const char *value);
 
-void CRequest_set_body(CRequest *self,const char *body);
+void CRequest_set_body(CRequest *self,unsigned char *body,long size);
 
-void CRequest_set_json(CRequest *self,cJSON *body);
+void CRequest_set_b64_body(CRequest *self,unsigned char *body,long size);
+
+void CRequest_set_body_string(CRequest *self,const char *body);
+
+void CRequest_resset_body(CRequest *self);
+
+void CRequest_set_body_json(CRequest *self,cJSON *body);
+
 
 
 unsigned char * CRequest_get_any(CRequest *self,long *size,bool *is_binary);
