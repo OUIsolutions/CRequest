@@ -14,5 +14,5 @@ void CRequestKeyVal_free(CRequestKeyVal *self){
 }
 
 void CRequestKeyVal_represent(CRequestKeyVal *self){
-    printf("\"%s\":\"%s\"",self->key,self->value);
+    printf("\t%s:%s",self->key,self->value);
 }

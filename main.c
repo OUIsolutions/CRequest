@@ -7,7 +7,10 @@ int main(){
 
     CRequest *t = newCRequest("google.com.br");
 
-    CRequest_set_headder(t,"aa","bbbb");
+    CRequest_add_headder(t, "aa", "bbbb");
+    CRequest_add_query_parram(t, "aaaaaa", "bbbbb");
+    //CRequest_set_body_string(t,"aaaaaaaaaaaaaaa");
     CRequest_represent(t);
+
 
 }

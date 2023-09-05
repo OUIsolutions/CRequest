@@ -21,11 +21,11 @@ CRequest * newCRequest(const char *url){
 }
 
 
-void CRequest_set_param(CRequest *self,const char *key, const char *value){
+void CRequest_add_query_parram(CRequest *self, const char *key, const char *value){
     CRequestDict_set_element(self->paramns,key,value);
 }
 
-void CRequest_set_headder(CRequest *self,const char *key, const char *value){
+void CRequest_add_headder(CRequest *self, const char *key, const char *value){
     CRequestDict_set_element(self->headers,key,value);
 
 }
@@ -61,12 +61,12 @@ void CRequest_represent(CRequest *self){
 
     printf("url:%s\n",self->url);
     if(self->paramns->size){
-        printf("Paramns:-------------------------------------------\n");
+        printf("Paramns:\n");
         CRequestDict_represent(self->paramns);
     }
 
     if(self->headers->size){
-        printf("Headders:-------------------------------------------\n");
+        printf("Headders:\n");
         CRequestDict_represent(self->headers);
     }
 
