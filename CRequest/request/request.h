@@ -7,9 +7,10 @@
 
 typedef struct CRequest{
 
+    bool use_native_curl;
     const char * binary_location;
     int cache_time;
-    bool use_cache;
+    bool delete_cache;
     bool clear_cache;
     const char * cache_location;
     const char *method;
@@ -47,7 +48,11 @@ void CRequest_set_body_json(CRequest *self,cJSON *body);
 
 char * CRequest_assign_requisition(CRequest *self);
 
-char * CRequest_get_cache_location(CRequest *self);
+char * CRequest_get_cache_response_location(CRequest *self);
+
+char * CRequest_get_cache_body_location(CRequest *self);
+
+bool CRequest_valid_cache_file(CRequest *self,const char *file);
 
 
 unsigned char * CRequest_get_any(CRequest *self,long *size,bool *is_binary);

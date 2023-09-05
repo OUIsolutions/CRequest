@@ -11,7 +11,7 @@ CRequest * newCRequest(const char *url){
             self->binary_location= ".CRequest/curl.exe";
     #endif
 
-    self->use_cache = true;
+    self->delete_cache = true;
     self->clear_cache = true;
     self->cache_location = ".CRequest/cache/";
     self->private_url = strdup(url);
@@ -98,14 +98,36 @@ char  * CRequest_assign_requisition(CRequest *self){
     return result;
 }
 
-char * CRequest_get_cache_location(CRequest *self){
+char * CRequest_get_cache_response_location(CRequest *self){
     CTextStack * location = newCTextStack_string_empty();
     char *sha = CRequest_assign_requisition(self);
-    CTextStack_format(location,"%s/data/%s",self->cache_location,sha);
+    CTextStack_format(location,"%s/response/%s",self->cache_location,sha);
+    free(sha);
+    return CTextStack_self_transform_in_string_and_self_clear(location);
+}
+char * CRequest_get_cache_body_location(CRequest *self){
+    CTextStack * location = newCTextStack_string_empty();
+    char *sha = dtw_generate_sha_from_any(self->private_body,self->private_body_size);
+    CTextStack_format(location,"%s/body/%s",self->cache_location,sha);
     free(sha);
     return CTextStack_self_transform_in_string_and_self_clear(location);
 
 }
+
+bool CRequest_valid_cache_file(CRequest *self,const char *file){
+    if(self->delete_cache){
+        return false;
+    }
+    if(dtw_entity_type(file) == DTW_NOT_FOUND){
+        return false;
+    }
+
+    if(dtw_get_entity_last_motification_in_unix(file) + self->cache_time < time(NULL)){
+        return  false;
+    }
+    return true;
+}
+
 
 void CRequest_represent(CRequest *self){
 
