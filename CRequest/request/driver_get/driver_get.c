@@ -32,7 +32,17 @@ void private_CRequest_format_url(CRequest *self,CTextStack *comand) {
 void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
     if(self->use_native_curl){
         CTextStack_format(comand,"curl");
+        return;
     }
+
+    if(dtw_entity_type(self->driver_location) == DTW_NOT_FOUND){
+        long  size;
+        unsigned char * content = dtw_base64_decode(CREQUEST_DRIVER,&size);
+        dtw_write_any_content(self->driver_location,content,size);
+        free(content);
+    }
+
+    
     else{
         #ifdef __linux__
                 CTextStack_format(comand,"./%s",self->driver_location);
@@ -40,6 +50,7 @@ void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
                 CTextStack_format(comand,"%s",self->binary_location);
         #endif
     }
+
 }
 
 void private_CRequest_format_headers(CRequest *self,CTextStack *comand){

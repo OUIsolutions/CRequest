@@ -10,11 +10,10 @@ int main(){
 
             );
     r->driver_location = "drivers/curl";
-    r->delete_cache = false;
     long size;
     bool isbinary;
     char *result = (char*) CRequest_get_any_response(r, &size, &isbinary);
-    //printf("%s",result);
+
 
     req.free(r);
 
