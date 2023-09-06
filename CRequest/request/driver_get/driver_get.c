@@ -3,7 +3,7 @@
 //
 
 void private_CRequest_format_url(CRequest *self,CTextStack *comand) {
-    CTextStack_format(comand, " %s", self->private_url);
+    CTextStack_format(comand, " -s  %s", self->private_url);
     long size = self->private_paramns->size;
     if(!size){
         return;
@@ -48,7 +48,7 @@ void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
     if(dtw_entity_type(self->driver_location) == DTW_NOT_FOUND){
 
         long  size;
-        unsigned char * content = dtw_base64_decode(CREQUEST_DRIVER,&size);
+        unsigned char * content = dtw_base64_decode(CREQUEST_B64_DRIVER,&size);
         dtw_write_any_content(self->driver_location,content,size);
         CTextStack  *permission_comand = newCTextStack_string_empty();
         CTextStack_format(permission_comand,"chmod +x %s", self->driver_location);
@@ -105,9 +105,9 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
 
 
     CTextStack_format(comand, " -L -o  %s", response_cache_location);
-    printf("comando :%s\n",comand->rendered_text);
 
-    system(comand->rendered_text);
+    int comand_result = system(comand->rendered_text);
+
     CTextStack_free(comand);
 
     unsigned  char *result = dtw_load_any_content(response_cache_location, size, is_binary);
@@ -123,6 +123,7 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
     if(body_path){
         free(body_path);
     }
+
 
     return result;
 }
