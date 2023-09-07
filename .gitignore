@@ -1,6 +1,6 @@
 # Prerequisites
 *.d
-
+curl
 # Object files
 *.o
 *.ko

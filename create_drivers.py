@@ -1,6 +1,8 @@
 import base64
 text = ''
 
+
+
 with open('drivers/curl','rb') as arq:
     content = arq.read()
     encoded = base64.b64encode(content).decode('utf8')
