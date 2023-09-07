@@ -1,4 +1,3 @@
-#define CREQUEST_USE_NATIVE_CURL
 #include "CRequest/one.h"
 
 int main(){
