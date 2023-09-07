@@ -1,12 +1,19 @@
+#define CREQUEST_USE_NATIVE_CURL
 #include "CRequest/one.h"
 
 int main(){
     CRequestNamespace req = newCRequestNamespace();
 
-    CRequest *r = req.newRequest("https://woliveiras.com.br/posts/como-instalar-o-nodejs-via-bin%C3%A1rios-tar-xz-no-linux/");
+    CRequest *r = req.newRequest("localhost:5001");
+    char *response = req.get_string_response(r);
+    if(!r->error){
+        printf("%s",response);
+        free(response);
+    }
+    else{
+        printf("%s",r->error_menssage);
+    }
 
-    char *t = req.get_string_response(r);
-    printf("%s",t);
 
 
     req.free(r);

@@ -63,9 +63,7 @@ void CRequest_free(CRequest *self){
     CRequestDict_free(self->private_paramns);
     CRequestDict_free(self->private_headers);
     free(self->private_url);
-    if(self->error_menssage){
-        free(self->error_menssage);
-    }
+
     if(self->private_body){
         free(self->private_body);
     }
@@ -122,15 +120,28 @@ char * CRequest_get_string_response(CRequest *self){
     unsigned char* content = CRequest_get_any_response(self, &size, &is_binary);
     if(is_binary){
         free(content);
+        self->error = CREQUEST_NOT_A_STRING;
+        self->error_menssage = "requisition its not a valid string\n";
         return NULL;
     }
+
     return (char*)content;
 }
 
 cJSON *CRequest_get_json_response(CRequest *self){
     char *content = CRequest_get_string_response(self);
+    if(!content){
+        return NULL;
+    }
+
     cJSON *parsed  = cJSON_Parse(content);
     free(content);
+    if(!parsed){
+        self->error = CREQUEST_NOT_VALID_JSON;
+        self->error_menssage = "requisition its not a valid json\n";
+        return NULL;
+    }
+    
     return parsed;
 }
 

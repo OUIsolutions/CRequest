@@ -13,8 +13,8 @@ typedef struct CRequest{
     bool clear_expired_cache;
     const char * cache_location;
     const char *method;
-    bool error_code;
-    char *error_menssage;
+    bool error;
+    const char *error_menssage;
 
 
     char *private_url;

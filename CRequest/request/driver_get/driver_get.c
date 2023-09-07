@@ -30,7 +30,7 @@ void private_CRequest_format_url(CRequest *self,CTextStack *comand) {
 }
 
 void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
-   
+
     #ifdef CREQUEST_USE_NATIVE_CURL
         CTextStack_format(comand,"curl");
         return;
@@ -102,9 +102,12 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
 
 
     CTextStack_format(comand, " -L -o  %s", response_cache_location);
-
     int comand_result = system(comand->rendered_text);
+    if(comand_result != 0){
 
+        self->error = CREQUEST_NOT_RESPOND;
+        self->error_menssage = "requisition not respond\n";
+    }
     CTextStack_free(comand);
 
     unsigned  char *result = dtw_load_any_content(response_cache_location, size, is_binary);
