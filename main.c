@@ -1,6 +1,5 @@
-//
-// Created by mateusmoutinho on 04/09/23.
-//
+
+#define CREQUEST_USE_NATIVE_DRIVER
 #include "CRequest/one.h"
 
 int main(){

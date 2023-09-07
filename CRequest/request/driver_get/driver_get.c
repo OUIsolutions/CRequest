@@ -30,21 +30,19 @@ void private_CRequest_format_url(CRequest *self,CTextStack *comand) {
 }
 
 void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
-    if(self->use_native_curl){
+   
+    #ifdef CREQUEST_USE_NATIVE_DRIVER
         CTextStack_format(comand,"curl");
         return;
-    }
+    #else 
+    
 
-
-
-
-    else{
-        #ifdef __linux__
-                CTextStack_format(comand,"./%s",self->driver_location);
-        #elif _win32
-                CTextStack_format(comand,"%s",self->binary_location);
-        #endif
-    }
+    #ifdef __linux__
+            CTextStack_format(comand,"./%s",self->driver_location);
+    #elif _win32
+            CTextStack_format(comand,"%s",self->binary_location);
+    #endif
+    
     if(dtw_entity_type(self->driver_location) == DTW_NOT_FOUND){
 
         long  size;
@@ -56,7 +54,7 @@ void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
         CTextStack_free(permission_comand);
         free(content);
     }
-
+    #endif
 }
 
 void private_CRequest_format_headers(CRequest *self,CTextStack *comand){
