@@ -9,7 +9,8 @@ void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
         CTextStack_format(comand,"curl ");
     #else
             #ifdef __linux__
-                    CTextStack_format(comand," ./%s ",self->driver_location);
+
+            CTextStack_format(comand," ./%s ",self->driver_location);
             #elif _win32
                     CTextStack_format(comand,"%s",self->binary_location);
             #endif
@@ -26,7 +27,8 @@ void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
                 free(content);
             }
         #endif
-    #endif
+
+#endif
 }
 
 void private_CRequest_format_headers(CRequest *self,CTextStack *comand){
@@ -56,8 +58,11 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
 
     private_CRequest_format_curl_comand(self,comand);
     CTextStack_format(comand, "'%tc'",private_CRequest_format_url(self));
+#ifndef CREQUEST_DEBUB
+    CTextStack_format(comand, " -s ");
+#endif
 
-    CTextStack_format(comand, " -s  -L ");
+    CTextStack_format(comand, " -L ");
     private_CRequest_format_headers(self,comand);
     CTextStack_format(comand, " -X %s", self->method);
 
@@ -76,6 +81,7 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
     CTextStack_format(comand, " -o  %s ", response_cache_location);
 
     //printf("comand %s\n",comand->rendered_text);;
+
     int comand_result = system(comand->rendered_text);
     if(comand_result != 0){
 

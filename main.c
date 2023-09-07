@@ -1,13 +1,11 @@
-#define CREQUEST_USE_CUSTOM_DRIVER
+#define CREQUEST_DEBUB
 #include "CRequest/one.h"
 
 int main(){
 
     CRequestNamespace req = newCRequestNamespace();
-    CRequest *r = req.newRequest("localhost:5000/sssaaaseea");
-    r->driver_location = ".CRequest/curl";
-    req.add_query_parram(r,"name","teste5.jpg");
-    req.set_body_file(r,"aaa.jpg");
+    CRequest *r = req.newRequest("pt.wikipedia.org");
+
     char *response = req.get_string_response(r);
 
     if(!r->error){
