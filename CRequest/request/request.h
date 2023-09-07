@@ -53,7 +53,7 @@ char * CRequest_assign_requisition(CRequest *self);
 
 char * CRequest_get_cache_response_location(CRequest *self);
 
-char * CRequest_clear_expired_cache(CRequest *self);
+void CRequest_clear_expired_cache(CRequest *self);
 
 char * CRequest_get_cache_body_location(CRequest *self);
 
