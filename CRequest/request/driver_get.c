@@ -2,32 +2,6 @@
 // Created by mateusmoutinho on 05/09/23.
 //
 
-void private_CRequest_format_url(CRequest *self,CTextStack *comand) {
-    CTextStack_format(comand, "%s", self->private_url);
-    long size = self->private_paramns->size;
-    if(!size){
-        return;
-    }
-
-    CTextStack * test_inclusion = newCTextStack_string(self->private_url);
-    if(CTextStack_index_of(test_inclusion,"?") == -1 ){
-        CTextStack_format(comand,"?");
-    }
-    if(size >= 1){
-        CRequestKeyVal  *current = self->private_paramns->elements[0];
-        CTextStack_format(comand,"%s=%s",current->key,current->value);
-    }
-    if(size == 1){
-        return;
-    }
-
-    for(int i = 1;i <size; i++){
-        CRequestKeyVal  *current = self->private_paramns->elements[i];
-        CTextStack_format(comand,"&%s=%s",current->key,current->value);
-    }
-
-
-}
 
 void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
 
@@ -79,9 +53,7 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
     CTextStack *comand = newCTextStack_string_empty();
 
     private_CRequest_format_curl_comand(self,comand);
-    CTextStack_format(comand, "'");
-    private_CRequest_format_url(self,comand);
-    CTextStack_format(comand, "'");
+    CTextStack_format(comand, "'%tc'",private_CRequest_format_url(self));
 
     CTextStack_format(comand, " -s  -L ");
     private_CRequest_format_headers(self,comand);

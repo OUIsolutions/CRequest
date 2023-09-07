@@ -32,12 +32,18 @@ SOFTWARE.
 #include "dependencies/CTextEngine.h"
 
 #include "dict/declaration.h"
-#include "request/declaration.h"
+#include "request/request.h"
 #include "namespace/namespace.h"
 
 
 #include "dict/definition.h"
-#include "request/definition.h"
+#ifndef CREQUEST_USE_LIBCURL
+#include "request/driver_get.c"
+#else
+#include "request/lib_get.c"
+#endif
+
+#include "request/request.c"
 #include "namespace/namespace.c"
 
 

@@ -141,9 +141,40 @@ cJSON *CRequest_get_json_response(CRequest *self){
         self->error_menssage = "requisition its not a valid json\n";
         return NULL;
     }
-    
+
     return parsed;
 }
+
+
+CTextStack *private_CRequest_format_url(CRequest *self){
+    CTextStack  *url = newCTextStack_string_empty();
+    CTextStack_format(url, "%s", self->private_url);
+    long size = self->private_paramns->size;
+    if(!size){
+        return url;
+    }
+
+    CTextStack * test_inclusion = newCTextStack_string(self->private_url);
+    if(CTextStack_index_of(test_inclusion,"?") == -1 ){
+        CTextStack_format(url,"?");
+    }
+    if(size >= 1){
+        CRequestKeyVal  *current = self->private_paramns->elements[0];
+        CTextStack_format(url,"%s=%s",current->key,current->value);
+    }
+    if(size == 1){
+        return url;
+    }
+
+    for(int i = 1;i <size; i++){
+        CRequestKeyVal  *current = self->private_paramns->elements[i];
+        CTextStack_format(url,"&%s=%s",current->key,current->value);
+    }
+    return url;
+
+
+}
+
 
 bool CRequest_valid_cache_file(CRequest *self,const char *file){
     if(self->delete_cache){

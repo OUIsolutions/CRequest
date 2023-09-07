@@ -35,6 +35,8 @@ void CRequest_add_query_parram(CRequest *self, const char *key, const char *valu
 
 void CRequest_add_headder(CRequest *self, const char *key, const char *value);
 
+CTextStack * private_CRequest_format_url(CRequest *self);
+
 void CRequest_set_body(CRequest *self,unsigned char *body,long size);
 
 void CRequest_set_b64_body(CRequest *self,unsigned char *body,long size);
@@ -53,7 +55,15 @@ char * CRequest_get_cache_body_location(CRequest *self);
 
 bool CRequest_valid_cache_file(CRequest *self,const char *file);
 
+#ifndef CREQUEST_USE_LIBCURL
 
+    void private_CRequest_format_headers(CRequest *self,CTextStack *comand);
+
+    void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand);
+
+    unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_binary);
+
+#endif
 
 
 char * CRequest_get_string_response(CRequest *self);
