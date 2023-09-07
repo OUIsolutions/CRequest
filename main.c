@@ -5,11 +5,10 @@ int main(){
 
     CRequestNamespace req = newCRequestNamespace();
     CRequest *r = req.newRequest("pt.wikipedia.org");
-
     char *response = req.get_string_response(r);
 
     if(!r->error){
-        printf("%s",response);
+        //printf("%s",response);
         free(response);
     }
     else{

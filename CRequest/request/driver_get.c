@@ -5,30 +5,19 @@
 
 void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
 
-    #ifdef CREQUEST_USE_NATIVE_CURL
+    if(!self->driver_location){
         CTextStack_format(comand,"curl ");
-    #else
-            #ifdef __linux__
+        return;
+    }
+    #ifdef __linux__
 
-            CTextStack_format(comand," ./%s ",self->driver_location);
-            #elif _win32
-                    CTextStack_format(comand,"%s",self->binary_location);
-            #endif
+    CTextStack_format(comand," ./%s ",self->driver_location);
+    #elif _win32
+            CTextStack_format(comand,"%s",self->binary_location);
+    #endif
 
-        #ifndef  CREQUEST_USE_CUSTOM_DRIVER
-            if(dtw_entity_type(self->driver_location) == DTW_NOT_FOUND){
-                long  size;
-                unsigned char * content = dtw_base64_decode(CREQUEST_B64_DRIVER,&size);
-                dtw_write_any_content(self->driver_location,content,size);
-                CTextStack  *permission_comand = newCTextStack_string_empty();
-                CTextStack_format(permission_comand,"chmod +x %s", self->driver_location);
-                system(permission_comand->rendered_text);
-                CTextStack_free(permission_comand);
-                free(content);
-            }
-        #endif
 
-#endif
+
 }
 
 void private_CRequest_format_headers(CRequest *self,CTextStack *comand){
