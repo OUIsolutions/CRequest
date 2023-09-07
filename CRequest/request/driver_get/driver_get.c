@@ -3,7 +3,7 @@
 //
 
 void private_CRequest_format_url(CRequest *self,CTextStack *comand) {
-    CTextStack_format(comand, " -s  %s", self->private_url);
+    CTextStack_format(comand, "%s", self->private_url);
     long size = self->private_paramns->size;
     if(!size){
         return;
@@ -32,8 +32,7 @@ void private_CRequest_format_url(CRequest *self,CTextStack *comand) {
 void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
 
     #ifdef CREQUEST_USE_NATIVE_CURL
-        CTextStack_format(comand,"curl");
-        return;
+        CTextStack_format(comand,"curl ");
     #else
             #ifdef __linux__
                     CTextStack_format(comand,"./%s",self->driver_location);
@@ -77,13 +76,14 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
     char *response_dir= dtw_concat_path(self->cache_location,"response");
     dtw_create_dir_recursively(response_dir);
     free(response_dir);
-
-
     CTextStack *comand = newCTextStack_string_empty();
 
-
     private_CRequest_format_curl_comand(self,comand);
+    CTextStack_format(comand, "'");
     private_CRequest_format_url(self,comand);
+    CTextStack_format(comand, "'");
+
+    CTextStack_format(comand, " -s  -L ");
     private_CRequest_format_headers(self,comand);
     CTextStack_format(comand, " -X %s", self->method);
 
@@ -101,7 +101,9 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
     }
 
 
-    CTextStack_format(comand, " -L -o  %s", response_cache_location);
+    CTextStack_format(comand, " -o  %s ", response_cache_location);
+
+    //printf("comand %s\n",comand->rendered_text);;
     int comand_result = system(comand->rendered_text);
     if(comand_result != 0){
 
