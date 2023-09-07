@@ -1,5 +1,5 @@
 
-#define CREQUEST_USE_NATIVE_DRIVER
+
 #include "CRequest/one.h"
 
 int main(){

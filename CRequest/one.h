@@ -22,9 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef CREQUEST_USE_NATIVE_DRIVER
+#if !defined(CREQUEST_USE_NATIVE_DRIVER) && !defined(CREQUEST_USE_LIBCURL) && !defined(CREQUEST_USE_CUSTOM_DRIVER)
+    //these will embed the driver into the final binary
     #include "driver.h"
 #endif
+
 
 #include "dependencies/doTheWorld.h"
 #include "dependencies/CTextEngine.h"
