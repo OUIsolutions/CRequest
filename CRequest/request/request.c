@@ -10,9 +10,8 @@ CRequest * newCRequest(const char *url){
     #elif _WIN32
             self->binary_location= ".CRequest/curl.exe";
     #endif
+    self->use_cache = true;
 
-    self->delete_cache = false;
-    self->clear_expired_cache = true;
     self->cache_location = ".CRequest/cache/";
     self->private_url = strdup(url);
     self->private_paramns = newCRequestDict();
@@ -113,6 +112,25 @@ char * CRequest_get_cache_body_location(CRequest *self){
     return CTextStack_self_transform_in_string_and_self_clear(location);
 
 }
+char * CRequest_clear_expired_cache(CRequest *self){
+    CTextStack  *cache_response_location = newCTextStack_string_empty();
+    CTextStack  *cache_body_location = newCTextStack_string_empty();
+    CTextStack_format(cache_body_location, "%s/body", self->cache_location);
+    dtw_remove_any(cache_body_location->rendered_text);
+
+
+    CTextStack_format(cache_response_location, "%s/response/%s", self->cache_location);
+    DtwStringArray *elements = dtw_list_files(cache_response_location->rendered_text, DTW_CONCAT_PATH);
+    for(int i =0; i < elements->size; i++){
+        char *current = elements->strings[i];
+        if(!CRequest_valid_cache_file(self,current)){
+            dtw_remove_any(current);
+        }
+    }
+    CTextStack_free(cache_body_location);
+    CTextStack_free(cache_response_location);
+    DtwStringArray_free(elements);
+}
 
 char * CRequest_get_string_response(CRequest *self){
     bool is_binary;
@@ -158,6 +176,7 @@ CTextStack *private_CRequest_format_url(CRequest *self){
     if(CTextStack_index_of(test_inclusion,"?") == -1 ){
         CTextStack_format(url,"?");
     }
+    CTextStack_free(test_inclusion);
     if(size >= 1){
         CRequestKeyVal  *current = self->private_paramns->elements[0];
         CTextStack_format(url,"%s=%s",current->key,current->value);
@@ -177,12 +196,9 @@ CTextStack *private_CRequest_format_url(CRequest *self){
 
 
 bool CRequest_valid_cache_file(CRequest *self,const char *file){
-    if(self->delete_cache){
 
-        return false;
-    }
+
     if(dtw_entity_type(file) == DTW_NOT_FOUND){
-
         return false;
     }
 

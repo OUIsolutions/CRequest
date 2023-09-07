@@ -39,6 +39,8 @@ void private_CRequest_format_headers(CRequest *self,CTextStack *comand){
 }
 
 unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_binary){
+    CRequest_clear_expired_cache(self);
+
     char *response_cache_location = CRequest_get_cache_response_location(self);
 
     if(CRequest_valid_cache_file(self, response_cache_location)){
@@ -60,16 +62,14 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
     CTextStack_format(comand, " -X %s", self->method);
 
     if(self->private_body_file){
-        CTextStack_format(comand, " -d %s", self->private_body_file);
+        CTextStack_format(comand, "  -d '@%s'", self->private_body_file);
     }
 
-    char * body_path = NULL;
     if(self->private_body){
-        body_path = CRequest_get_cache_body_location(self);
-        if(!CRequest_valid_cache_file(self,body_path)){
-            dtw_write_any_content(body_path,self->private_body,self->private_body_size);
-        }
-        CTextStack_format(comand, " -d %s", body_path);
+        char * body_path = CRequest_get_cache_body_location(self);
+        dtw_write_any_content(body_path,self->private_body,self->private_body_size);
+        CTextStack_format(comand, " -d '@%s'", body_path);
+        free(body_path);
     }
 
 
@@ -86,17 +86,9 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
 
     unsigned  char *result = dtw_load_any_content(response_cache_location, size, is_binary);
 
-    if(self->delete_cache){
-        dtw_remove_any(response_cache_location);
-        if(body_path){
-            dtw_remove_any(body_path);
-        }
-    }
 
     free(response_cache_location);
-    if(body_path){
-        free(body_path);
-    }
+
 
 
     return result;

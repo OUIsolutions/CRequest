@@ -8,9 +8,9 @@
 typedef struct CRequest{
 
     const char * driver_location;
+    bool use_cache;
+
     int cache_time;
-    bool delete_cache;
-    bool clear_expired_cache;
     const char * cache_location;
     const char *method;
     bool error;
@@ -50,6 +50,8 @@ void CRequest_set_body_json(CRequest *self,cJSON *body);
 char * CRequest_assign_requisition(CRequest *self);
 
 char * CRequest_get_cache_response_location(CRequest *self);
+
+char * CRequest_clear_expired_cache(CRequest *self);
 
 char * CRequest_get_cache_body_location(CRequest *self);
 
