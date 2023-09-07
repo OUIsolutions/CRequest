@@ -9,7 +9,7 @@ void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
         CTextStack_format(comand,"curl ");
     #else
             #ifdef __linux__
-                    CTextStack_format(comand,"./%s",self->driver_location);
+                    CTextStack_format(comand," ./%s ",self->driver_location);
             #elif _win32
                     CTextStack_format(comand,"%s",self->binary_location);
             #endif
@@ -82,6 +82,7 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
         self->error = CREQUEST_NOT_RESPOND;
         self->error_menssage = "requisition not respond\n";
     }
+    printf("comand:%s\n",comand->rendered_text);
     CTextStack_free(comand);
 
     unsigned  char *result = dtw_load_any_content(response_cache_location, size, is_binary);

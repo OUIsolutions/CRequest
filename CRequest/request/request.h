@@ -21,7 +21,7 @@ typedef struct CRequest{
     CRequestDict  *private_paramns;
     CRequestDict  *private_headers;
     long private_body_size;
-    const char *private_body_file;
+    char *private_body_file;
     unsigned char *private_body;
 
 
@@ -42,6 +42,8 @@ void CRequest_set_body(CRequest *self,unsigned char *body,long size);
 void CRequest_set_b64_body(CRequest *self,unsigned char *body,long size);
 
 void CRequest_set_body_string(CRequest *self,const char *body);
+
+void CRequest_set_body_file(CRequest *self,const char *filename);
 
 void CRequest_resset_body(CRequest *self);
 

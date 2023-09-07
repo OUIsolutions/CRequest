@@ -14,6 +14,7 @@ typedef struct CRequestNamespace{
     void (*set_b64_body)(CRequest *self,unsigned char *body,long size);
 
     void (*set_body_string)(CRequest *self, const char *body);
+    void (*set_body_file)(CRequest *self,const char *filename);
 
     unsigned char * (*get_any_response)(CRequest *self, long *size, bool *is_binary);
     char * (*get_string_response)(CRequest *self);

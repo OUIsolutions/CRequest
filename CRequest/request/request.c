@@ -22,6 +22,9 @@ void CRequest_set_body(CRequest *self,unsigned char *body,long size){
 void CRequest_set_body_string(CRequest *self,const char *body){
     CRequest_set_body(self,(unsigned char*)body, (long)strlen(body));
 }
+void CRequest_set_body_file(CRequest *self,const char *filename){
+    self->private_body_file = strdup(filename);
+}
 
 void CRequest_set_b64_body(CRequest *self,unsigned char *body,long size){
     CRequest_resset_body(self);

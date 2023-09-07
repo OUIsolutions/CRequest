@@ -27,7 +27,9 @@ void CRequest_free(CRequest *self){
     CRequestDict_free(self->private_paramns);
     CRequestDict_free(self->private_headers);
     free(self->private_url);
-
+    if(self->private_body_file){
+        free(self->private_body_file);
+    }
     if(self->private_body){
         free(self->private_body);
     }
