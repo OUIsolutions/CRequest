@@ -1,26 +1,5 @@
 
 
-CRequest * newCRequest(const char *url){
-    CRequest *self = (CRequest*) malloc(sizeof (CRequest));
-    *self =(CRequest){0};
-    self->cache_time = 60;
-    self->method = "GET";
-    #ifdef __linux__
-            self->driver_location= ".CRequest/curl";
-    #elif _WIN32
-            self->binary_location= ".CRequest/curl.exe";
-    #endif
-    self->use_cache = true;
-
-    self->cache_location = ".CRequest/cache/";
-    self->private_url = strdup(url);
-    self->private_paramns = newCRequestDict();
-    self->private_headers = newCRequestDict();
-    return self;
-
-}
-
-
 void CRequest_add_query_parram(CRequest *self, const char *key, const char *value){
     CRequestDict_set_element(self->private_paramns, key, value);
 }
@@ -58,79 +37,6 @@ void CRequest_set_body_json(CRequest *self,cJSON *body){
 
 }
 
-void CRequest_free(CRequest *self){
-    CRequestDict_free(self->private_paramns);
-    CRequestDict_free(self->private_headers);
-    free(self->private_url);
-
-    if(self->private_body){
-        free(self->private_body);
-    }
-
-    free(self);
-}
-
-char  * CRequest_assign_requisition(CRequest *self){
-    DtwHash *hash = newDtwHash();
-    DtwHash_digest_string(hash,self->method);
-    DtwHash_digest_string(hash,self->private_url);
-    for(int i = 0; i < self->private_paramns->size; i++){
-        CRequestKeyVal *current = self->private_paramns->elements[i];
-        DtwHash_digest_string(hash,current->key);
-        DtwHash_digest_string(hash,current->key);
-    }
-    for(int i = 0; i < self->private_headers->size; i++){
-        CRequestKeyVal *current = self->private_headers->elements[i];
-        DtwHash_digest_string(hash,current->key);
-        DtwHash_digest_string(hash,current->key);
-    }
-    if(self->private_body){
-        DtwHash_digest_any(hash,self->private_body,self->private_body_size);
-    }
-    if(self->private_body_file){
-        DtwHash_digest_file(hash,self->private_body_file);
-    }
-    char *result = strdup(hash->hash);
-    DtwHash_free(hash);
-    return result;
-}
-
-char * CRequest_get_cache_response_location(CRequest *self){
-    CTextStack * location = newCTextStack_string_empty();
-    char *sha = CRequest_assign_requisition(self);
-    CTextStack_format(location,"%s/response/%s",self->cache_location,sha);
-    free(sha);
-    return CTextStack_self_transform_in_string_and_self_clear(location);
-}
-
-
-char * CRequest_get_cache_body_location(CRequest *self){
-    CTextStack * location = newCTextStack_string_empty();
-    char *sha = dtw_generate_sha_from_any(self->private_body,self->private_body_size);
-    CTextStack_format(location,"%s/body/%s",self->cache_location,sha);
-    free(sha);
-    return CTextStack_self_transform_in_string_and_self_clear(location);
-
-}
-char * CRequest_clear_expired_cache(CRequest *self){
-    CTextStack  *cache_response_location = newCTextStack_string_empty();
-    CTextStack  *cache_body_location = newCTextStack_string_empty();
-    CTextStack_format(cache_body_location, "%s/body", self->cache_location);
-    dtw_remove_any(cache_body_location->rendered_text);
-
-
-    CTextStack_format(cache_response_location, "%s/response/%s", self->cache_location);
-    DtwStringArray *elements = dtw_list_files(cache_response_location->rendered_text, DTW_CONCAT_PATH);
-    for(int i =0; i < elements->size; i++){
-        char *current = elements->strings[i];
-        if(!CRequest_valid_cache_file(self,current)){
-            dtw_remove_any(current);
-        }
-    }
-    CTextStack_free(cache_body_location);
-    CTextStack_free(cache_response_location);
-    DtwStringArray_free(elements);
-}
 
 char * CRequest_get_string_response(CRequest *self){
     bool is_binary;
@@ -197,6 +103,9 @@ CTextStack *private_CRequest_format_url(CRequest *self){
 
 bool CRequest_valid_cache_file(CRequest *self,const char *file){
 
+    if(!self->cache_time){
+        return false;
+    }
 
     if(dtw_entity_type(file) == DTW_NOT_FOUND){
         return false;

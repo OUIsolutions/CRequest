@@ -37,9 +37,9 @@ SOFTWARE.
 
 
 #include "dict/definition.h"
-
 #include "request/request.c"
-
+#include "request/cache.c"
+#include "request/constructor_and_free.c"
 #ifdef CREQUEST_USE_LIBCURL
     #include "request/lib_get.c"
 #else

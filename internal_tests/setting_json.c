@@ -4,11 +4,12 @@
 int main(){
 
     CRequestNamespace req = newCRequestNamespace();
-    CRequest *r = req.newRequest("localhost:5000/sssaaaseea");
-    req.add_query_parram(r,"name","teste5.jpg");
-    long size;
-    unsigned char *content = dtw_load_binary_content("aaa.jpg", &size);
-    req.set_body(r,content,size);
+    CRequest *r = req.newRequest("localhost:5001/sssaaaseea");
+
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json,"aaaa","aaaaaaaa");
+    req.set_body_json(r,json);
+    cJSON_Delete(json);
     char *response = req.get_string_response(r);
 
     if(!r->error){
