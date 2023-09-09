@@ -11495,7 +11495,7 @@ char * CRequest_assign_requisition(CRequest *self);
 
 char * CRequest_get_cache_response_location(CRequest *self);
 
-char * CRequest_clear_expired_cache(CRequest *self);
+void CRequest_clear_expired_cache(CRequest *self);
 
 char * CRequest_get_cache_body_location(CRequest *self);
 
@@ -11796,6 +11796,7 @@ char * CRequest_get_cache_response_location(CRequest *self){
     CTextStack_format(location,"%s/response/%s",self->cache_location,sha);
     free(sha);
     return CTextStack_self_transform_in_string_and_self_clear(location);
+
 }
 
 
@@ -11807,7 +11808,7 @@ char * CRequest_get_cache_body_location(CRequest *self){
     return CTextStack_self_transform_in_string_and_self_clear(location);
 
 }
-char * CRequest_clear_expired_cache(CRequest *self){
+void  CRequest_clear_expired_cache(CRequest *self){
 
     CTextStack  *cache_body_location = newCTextStack_string_empty();
     CTextStack_format(cache_body_location, "%s/body", self->cache_location);
@@ -11884,7 +11885,6 @@ void private_CRequest_format_curl_comand(CRequest *self,CTextStack *comand){
         CTextStack_format(comand,"curl ");
         return;
     }
-    
     #ifdef __linux__
 
     CTextStack_format(comand," ./%s ",self->driver_location);
