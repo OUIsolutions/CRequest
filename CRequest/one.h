@@ -38,7 +38,7 @@ SOFTWARE.
 #ifdef CREQUEST_USE_LIBCURL
     #include "request/lib_get.c"
 #else
-    #include "request/driver_get.c"
+    #include "request/comand_line_curl.c"
 #endif
 
 #include "namespace/namespace.c"

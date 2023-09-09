@@ -69,7 +69,10 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
 
     CTextStack_format(comand, " -o  %s ", response_cache_location);
 
-    //printf("comand %s\n",comand->rendered_text);;
+#ifndef CREQUEST_DEBUB
+    printf("comand %s\n",comand->rendered_text);;
+#endif
+
 
     int comand_result = system(comand->rendered_text);
     if(comand_result != 0){
@@ -77,6 +80,7 @@ unsigned char * CRequest_get_any_response(CRequest *self, long *size, bool *is_b
         self->error = CREQUEST_NOT_RESPOND;
         self->error_menssage = "requisition not respond\n";
     }
+
     printf("comand:%s\n",comand->rendered_text);
     CTextStack_free(comand);
 
