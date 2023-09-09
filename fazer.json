@@ -1,0 +1,39 @@
+{
+    "cli":{
+        "testar querry parrams":false,
+        "testar headders":false,
+        "body":{
+            "envio":{
+                "testar envio de string":false,
+                "testar envio de json":false,
+                "testar envio de arquivos por binário":false,
+                "testar envio de arquivos por arquivo":false
+            },
+            "leitura":{
+                "testar leitura de texto":false,
+                "testar leitura de json":false,
+                "testar leitura de arquivos":false
+            }
+
+        },
+        
+        "libcurl":{
+            "testar querry parrams":false,
+            "testar headders":false,
+            "body":{
+                "envio":{
+                    "testar envio de string":false,
+                    "testar envio de json":false,
+                    "testar envio de arquivos por binário":false,
+                    "testar envio de arquivos por arquivo":false
+                },
+                "leitura":{
+                    "testar leitura de texto":false,
+                    "testar leitura de json":false,
+                    "testar leitura de arquivos":false
+                }
+    
+            }
+
+    }
+}
