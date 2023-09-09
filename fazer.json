@@ -1,6 +1,6 @@
 {
     "cli":{
-        "testar querry parrams":false,
+        "testar querry parrams":true,
         "testar headders":false,
         "body":{
             "envio":{

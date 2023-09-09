@@ -21,7 +21,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-
+#ifdef CREQUEST_USE_LIBCURL
+#include <curl/curl.h>
+#endif
 
 #include "dependencies/doTheWorld.h"
 #include "dependencies/CTextEngine.h"
@@ -36,7 +38,7 @@ SOFTWARE.
 #include "request/cache.c"
 #include "request/constructor_and_free.c"
 #ifdef CREQUEST_USE_LIBCURL
-    #include "request/lib_get.c"
+    #include "request/lib_curl.c"
 #else
     #include "request/comand_line_curl.c"
 #endif

@@ -1,3 +1,4 @@
+#define CREQUEST_USE_LIBCURL
 #include "CRequest/one.h"
 
 int main(){
